@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<title>SGS Snake Changer - Sadia Studio Habib - 15 Snakes - RATING FOR 3+</title>
+<meta name="theme-color" content="#00ffff">
+<link rel="manifest" href="manifest.json">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:sans-serif}
+body{background:#0a0a14;color:#fff;height:100vh;display:flex;flex-direction:column;overflow:hidden;perspective:1000px}
+.text3D{color:#00ffff;font-weight:900;text-shadow:2px 2px 0 #000, 4px 4px 0 #001a1a, 6px 6px 12px #000;transform:perspective(600px) rotateX(5deg)}
+#loading{position:fixed;inset:0;background:radial-gradient(circle at 50% 50%,#121225,#000);z-index:99999;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:10px}
+.cubeWrap{width:90px;height:90px;perspective:600px;margin-bottom:14px}
+.cube{width:90px;height:90px;position:relative;transform-style:preserve-3d;animation:rotCube 3s linear infinite}
+.cube div{position:absolute;width:90px;height:90px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:14px;border:2px solid #00ffff88;background:linear-gradient(135deg,#00ffffcc,#ff00ffcc);color:#000;box-shadow:inset 2px 2px 6px #fff6}
+.f{transform:translateZ(45px)}.b{transform:rotateY(180deg) translateZ(45px)}.r{transform:rotateY(90deg) translateZ(45px)}.l{transform:rotateY(-90deg) translateZ(45px)}.u{transform:rotateX(90deg) translateZ(45px)}.d{transform:rotateX(-90deg) translateZ(45px)}
+@keyframes rotCube{0%{transform:rotateX(20deg) rotateY(0deg)}100%{transform:rotateX(20deg) rotateY(360deg)}}
+.tube{width:280px;height:18px;background:#111;border-radius:20px;border:2px solid #222;box-shadow:inset 4px 4px 8px #000, 4px 4px 10px #000;overflow:hidden;margin-top:12px;transform:perspective(500px) rotateX(10deg)}
+#bar{height:100%;width:0%;background:linear-gradient(90deg,#00ffff,#ff00ff,#ffff00);transition:width 0.2s;border-radius:20px}
+.line{opacity:0;transform:translateY(40px) perspective(400px) rotateX(20deg);transition:all 0.8s cubic-bezier(0.17,0.67,0.12,0.99);font-size:10px;color:#ccc;margin:4px;font-weight:800;text-align:center;text-shadow:2px 2px 0 #000}.line.show{opacity:1;transform:translateY(0) perspective(400px) rotateX(0deg)}
+.hd{display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:linear-gradient(180deg,#000,#0a0a14);border-bottom:1px solid #00ffff33;box-shadow:0 6px 16px #000}
+.bannerTop{width:320px;max-width:98%;height:50px;margin:0 auto;background:linear-gradient(145deg,#0e0e1a,#121225);color:#00ffff;text-align:center;font-size:8px;display:flex;align-items:center;justify-content:center;border-radius:12px;margin-top:10px;box-shadow:8px 8px 16px #000, -4px -4px 12px #22223a;border:1px solid #00ffff22;transform:perspective(600px) rotateX(8deg)}
+.gapSafe{height:18px;width:100%}
+.topBtn{display:flex;justify-content:center;gap:6px;margin:6px;flex-wrap:wrap;perspective:800px}
+.tb{padding:9px 10px;background:linear-gradient(145deg,#15151f,#1c1c2e);color:#00ffff;border-radius:14px;font-weight:900;font-size:6.5px;border:none;box-shadow:6px 6px 12px #000, -3px -3px 8px #22223a;transform:perspective(500px) rotateX(12deg) rotateY(-2deg);transition:all 0.2s;text-shadow:1px 1px 0 #000}
+.tb:active{transform:perspective(500px) rotateX(0deg) scale(0.92);box-shadow:inset 4px 4px 8px #000}
+.tb.ok{background:linear-gradient(145deg,#00ffff,#00ccff);color:#000;box-shadow:6px 6px 12px #000, 0 0 16px #00ffff66}
+.tb.rate{background:linear-gradient(145deg,#ffeb3b,#ffcc00);color:#000;box-shadow:6px 6px 12px #000, 0 0 16px #ffeb3b66}
+.tb.exit{background:linear-gradient(145deg,#1a1a1a,#222);color:#ff5555}
+.tb.reset{background:linear-gradient(145deg,#ff4444,#cc0000);color:#fff;box-shadow:6px 6px 12px #000, 0 0 16px #ff444466}
+#cv{width:100%;max-width:360px;aspect-ratio:16/9;background:#000;border:3px solid #00ffff;border-radius:20px;margin:0 auto;display:block;margin-top:6px;image-rendering:crisp-edges;box-shadow:0 0 24px #00ffff44, 10px 10px 20px #000, inset 2px 2px 8px #00ffff22;transform:perspective(800px) rotateX(6deg)}
+.controls{display:grid;grid-template-columns:74px 74px 74px;grid-template-rows:56px 56px 56px;gap:10px;justify-content:center;margin:8px;perspective:800px}
+.cb{background:linear-gradient(145deg,#1a1a28,#15151f);border:none;border-radius:18px;color:#00ffff;font-size:11px;font-weight:900;box-shadow:7px 7px 14px #000, -3px -3px 10px #22223a;transform:perspective(600px) rotateX(14deg) rotateY(-3deg);text-shadow:1px 1px 0 #000;line-height:9px;transition:0.15s}
+.cb:active{transform:perspective(600px) rotateX(0deg) scale(0.9);box-shadow:inset 5px 5px 10px #000}
+.cb.ok{grid-column:2;grid-row:2;background:linear-gradient(145deg,#00ffff,#00aaff);color:#000;box-shadow:7px 7px 14px #000, 0 0 18px #00ffff88}
+.up{grid-column:2;grid-row:1}.left{grid-column:1;grid-row:2}.right{grid-column:3;grid-row:2}.down{grid-column:2;grid-row:3}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,0.88);backdrop-filter:blur(10px);display:none;flex-direction:column;z-index:99;overflow-y:auto;perspective:1000px}
+.mTop{display:flex;justify-content:space-between;align-items:center;background:linear-gradient(145deg,#000000ee,#0a0a14ee);padding:12px;border-bottom:1px solid #00ffff33;position:sticky;top:0;z-index:5;box-shadow:0 8px 20px #000;transform:perspective(600px) rotateX(4deg)}
+.close{width:40px;height:40px;border-radius:50%;background:linear-gradient(145deg,#00ffff,#00aaff);color:#000;border:none;font-weight:900;font-size:16px;display:flex;align-items:center;justify-content:center;box-shadow:4px 4px 10px #000, 0 0 12px #00ffff66}
+.tabs{display:flex;gap:6px;margin:10px;flex-wrap:wrap}
+.tab{padding:8px 12px;border-radius:20px;border:none;background:linear-gradient(145deg,#15151f,#1a1a2e);color:#fff;font-size:6.5px;font-weight:800;box-shadow:5px 5px 10px #000;transform:perspective(400px) rotateX(10deg);text-shadow:1px 1px 0 #000}
+.tab.active{background:linear-gradient(145deg,#00ffff,#00aaff);color:#000;box-shadow:0 0 14px #00ffff88}
+.sec{display:none;padding:0 10px}.sec.active{display:block}
+.shopGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.item3d{background:linear-gradient(145deg,#181828,#12121e);border-radius:20px;padding:12px;display:flex;flex-direction:column;align-items:center;text-align:center;box-shadow:9px 9px 18px #000, -4px -4px 12px #22223a;border:1px solid #00ffff11;min-height:124px;transform:perspective(600px) rotateX(8deg) rotateY(-3deg);transition:0.2s}
+.item3d:active{transform:perspective(600px) rotateX(2deg) scale(0.96)}
+.item3d.using{border:2px solid #ffeb3b;box-shadow:0 0 20px #ffeb3b88, 9px 9px 18px #000}
+.iconBox{width:56px;height:56px;border-radius:16px;background:linear-gradient(145deg,#0a0a14,#1a1a2e);box-shadow:inset 3px 3px 8px #000, inset -2px -2px 6px #22223a;display:flex;align-items:center;justify-content:center;margin-bottom:6px;border:1px solid #00ffff22}
+.buy3d{margin-top:6px;padding:8px 14px;border-radius:20px;border:none;font-weight:900;font-size:6.5px;min-width:86px;box-shadow:4px 4px 10px #000;transform:perspective(400px) rotateX(8deg)}
+.perm3d{background:linear-gradient(145deg,#00ffff,#00aaff);color:#000}.use3d{background:linear-gradient(145deg,#ffeb3b,#ffcc00);color:#000;box-shadow:0 0 14px #ffeb3b99;animation:usingPulse 1.5s infinite}
+@keyframes usingPulse{0%,100%{box-shadow:0 0 12px #ffeb3b88}50%{box-shadow:0 0 22px #ffeb3baa}}
+.levelGrid{display:grid;grid-template-columns:1fr;gap:18px;padding:14px}
+.levelCube3D{position:relative;background:linear-gradient(145deg,#181828,#0f0f1a);border-radius:20px;padding:0;display:flex;flex-direction:column;box-shadow:10px 10px 22px #000, -4px -4px 14px #22223a;border:2px solid #222;transform:perspective(800px) rotateX(10deg) rotateY(-5deg);transition:all 0.35s;overflow:hidden}
+.levelCube3D:active{transform:perspective(800px) rotateX(2deg) scale(0.97)}
+.levelCube3D.free{border-color:#00ff88;box-shadow:10px 10px 22px #000, -4px -4px 14px #1a2e22, 0 0 22px #00ff8833}
+.levelCube3D.locked{border-color:#ff4444;box-shadow:10px 10px 18px #000, inset 2px 2px 10px #000;opacity:0.9}
+.levelCube3D.playing{border-color:#00ffff;box-shadow:0 0 36px #00ffff99, 12px 12px 26px #000;transform:perspective(800px) rotateX(6deg) rotateY(-2deg) scale(1.03);background:linear-gradient(145deg,#001a1a,#0a1a2e);animation:pulsePlaying 2s infinite}
+@keyframes pulsePlaying{0%,100%{box-shadow:0 0 28px #00ffff77, 12px 12px 26px #000}50%{box-shadow:0 0 40px #00ffffbb, 12px 12px 26px #000}}
+.levelTop{height:10px;background:linear-gradient(90deg,#222,#333);box-shadow:inset 0 3px 6px #000}
+.levelMain{display:flex;justify-content:space-between;align-items:center;padding:14px}
+.levelLeft{display:flex;align-items:center;gap:10px}
+.levelIconBox{width:58px;height:58px;border-radius:16px;background:linear-gradient(145deg,#0a0a14,#1a1a2e);box-shadow:inset 3px 3px 10px #000;display:flex;align-items:center;justify-content:center;border:1px solid #00ffff22}
+.levelInfo b{font-size:9.5px;color:#00ffff;line-height:11px;text-shadow:1px 1px 0 #000}
+.levelInfo span{font-size:6px;color:#aaa;line-height:8px;display:block;margin-top:2px}
+.levelBadge{padding:5px 10px;border-radius:14px;font-size:6px;font-weight:900;margin-top:5px;display:inline-block;box-shadow:3px 3px 8px #000;text-shadow:1px 1px 0 #000}
+.badgeLocked{background:#ff444422;color:#ff4444;border:1px solid #ff4444}
+.badgeUnlocked{background:#00ff8822;color:#00ff88;border:1px solid #00ff88}
+.badgePlaying{background:linear-gradient(145deg,#ffeb3b,#ffcc00);color:#000;box-shadow:0 0 14px #ffeb3b99;animation:blink 1.2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.7}}
+.levelRight{text-align:right}
+.levelCost{font-size:7.5px;color:#ffeb3b;font-weight:900;text-shadow:1px 1px 0 #000}
+.levelBtn{margin-top:8px;padding:9px 16px;border-radius:22px;border:none;font-weight:900;font-size:7px;box-shadow:5px 5px 12px #000;min-width:96px;transform:perspective(400px) rotateX(10deg)}
+.btnLocked{background:linear-gradient(145deg,#444,#333);color:#ff7777}
+.btnUnlocked{background:linear-gradient(145deg,#00ff88,#00cc66);color:#000}
+.btnPlaying{background:linear-gradient(145deg,#ffeb3b,#ffcc00);color:#000;box-shadow:0 0 16px #ffeb3baa}
+.adBox3d{background:linear-gradient(145deg,#0e0e1a,#121225);border:1px dashed #00ffff44;border-radius:16px;padding:14px;margin:12px 0;text-align:center;box-shadow:8px 8px 16px #000;transform:perspective(500px) rotateX(8deg)}
+.setRow3d{display:flex;justify-content:space-between;align-items:center;padding:16px;background:linear-gradient(145deg,#15151f,#1a1a2e);border-radius:16px;margin:10px 0;box-shadow:8px 8px 16px #000;transform:perspective(500px) rotateX(8deg)}
+.dot{width:12px;height:12px;border-radius:50%;display:inline-block;border:2px solid #fff;margin-right:4px;box-shadow:0 0 8px currentColor}
+.limitBadge{background:#ff4444;color:#fff;font-size:5px;padding:3px 6px;border-radius:10px;margin-left:6px}.limitOk{background:#00ff88;color:#000}
+#interAd{position:fixed;inset:0;background:rgba(0,0,0,0.96);z-index:999999;display:none;flex-direction:column;align-items:center;justify-content:center}
+.interBox{width:320px;max-width:95%;background:linear-gradient(145deg,#15151f,#1a1a2e);border-radius:20px;padding:16px;text-align:center;box-shadow:0 0 30px #00ffff66;border:2px solid #00ffff33}
+</style>
+</head>
+<body>
+<div id="loading">
+<div class="cubeWrap"><div class="cube"><div class="f">SGS SNAKE</div><div class="b">COBRA SNAKE</div><div class="r">VIPER SNAKE</div><div class="l">PYTHON SNAKE</div><div class="u">GALAXY SNAKE</div><div class="d">LAVA SNAKE</div></div></div>
+<div id="l1" class="line text3D" style="color:#00ffff;font-size:16px">SGS SNAKE CHANGER SNAKE</div>
+<div id="l2" class="line text3D" style="color:#ffeb3b;font-size:13px">Sadia Studio Snake</div>
+<div id="l3" class="line" style="color:#00ff88;font-size:11px">Habib - 15 Snake Skins Snake</div>
+<div id="l4" class="line" style="color:#fff;font-size:9px">Cobra Hood MUST Snake - Full 3D Snake</div>
+<div class="tube"><div id="bar"></div></div>
+<div id="loadText" class="text3D" style="font-size:9px;color:#00ffff;margin-top:10px">Loading Snake 0%</div>
+<button onclick="playLoadingComplete();hideLoading()" class="tb ok" style="margin-top:14px;padding:12px 20px;font-size:9px">SKIP - PLAY SNAKE 🔊 SNAKE</button>
+</div>
+<div class="hd"><div style="display:flex;align-items:center;gap:8px"><div style="width:34px;height:34px;border-radius:12px;background:linear-gradient(145deg,#00ffff,#ff00ff);display:flex;align-items:center;justify-content:center;font-weight:900;color:#000;font-size:11px;box-shadow:4px 4px 10px #000">SGS</div><div style="line-height:10px"><div class="text3D" style="font-size:8.5px;color:#00ffff">SGS SNAKE CHANGER SNAKE</div><div style="font-size:5px;color:#ffeb3b;font-weight:800">Sadia Studio | Habib | 15 Snakes Snake | RATING FOR 3+ SNAKE</div></div></div><div style="text-align:right;line-height:10px"><div class="text3D" style="font-size:8.5px;color:#00ff88">COIN SNAKE <span id="coin">500</span></div><div id="snd" onclick="toggleSound()" style="font-size:5.5px;color:#aaa;font-weight:800;cursor:pointer">SOUND SNAKE ON</div></div></div>
+<div class="bannerTop text3D">Ad 320x50 - 15 Snakes Snake - RATING FOR 3+ SNAKE</div><div class="gapSafe"></div>
+<div class="topBtn">
+<button class="tb" onclick="playTouch();openShop()">SHOP SNAKE</button>
+<button class="tb ok" onclick="playTouch();togglePause()">OK SNAKE</button>
+<button class="tb" onclick="playTouch();openLv()">LEVELS SNAKE 3D</button>
+<button class="tb rate" onclick="playTouch();rateAppInApp()">RATING FOR 3+ SNAKE</button>
+<button class="tb" onclick="playTouch();openAdCenter()">ADS SNAKE <span id="adLimitBadge" class="limitBadge limitOk">4 LEFT SNAKE</span></button>
+<button class="tb" onclick="playTouch();openSpin()">SPIN SNAKE <span id="spinLimitBadge" class="limitBadge limitOk">2 LEFT SNAKE</span></button>
+<button class="tb reset" onclick="playTouch();resetGameData()">RESET SNAKE</button>
+<button class="tb" style="background:linear-gradient(145deg,#00ff88,#00cc66);color:#000" onclick="playTouch();openSettings()">SETTING SNAKE</button>
+<button class="tb exit" onclick="playTouch();exitGame()">EXIT SNAKE</button>
+</div>
+<div class="text3D" style="text-align:center;color:#00ffff;font-weight:800;font-size:6.5px;margin:4px">Lv Snake <span id="lv">1</span> - <span id="lvName">SGS Classic Snake Snake</span> | <span id="speed">196ms</span> | Score Snake <span id="sc">0</span> | High Snake <span id="high">0</span> | <span id="state">PRESS ARROW SNAKE</span></div>
+<canvas id="cv" width="360" height="180"></canvas>
+<div class="controls">
+<button class="cb up" onclick="setD('up')">U<br><span style="font-size:10px">🐍</span></button>
+<button class="cb left" onclick="setD('left')">L<br><span style="font-size:10px">🐍</span></button>
+<button class="cb ok" onclick="togglePause()">OK<br><span style="font-size:10px">👑🐍</span></button>
+<button class="cb right" onclick="setD('right')">R<br><span style="font-size:10px">🐍</span></button>
+<button class="cb down" onclick="setD('down')">D<br><span style="font-size:10px">🐍</span></button>
+</div>
+<div id="shopM" class="modal"><div class="mTop"><b class="text3D">SHOP - 15 SNAKE SKINS SNAKE</b><button class="close" onclick="playTouch();closeM('shopM')">X SNAKE</button></div><div class="tabs"><button class="tab active" onclick="playTouch();showTab(0)">Food Snake 15 Snake</button><button class="tab" onclick="playTouch();showTab(1)">Body Snake 15 Snake</button><button class="tab" onclick="playTouch();showTab(2)">Full Body Snake 15 Snake</button><button class="tab" onclick="playTouch();showTab(3)">Head Snake 15 Cobra MUST Snake</button></div><div id="sec0" class="sec active"></div><div id="sec1" class="sec"></div><div id="sec2" class="sec"></div><div id="sec3" class="sec"></div></div>
+<div id="lvM" class="modal"><div class="mTop"><b class="text3D">LEVELS 3D - 15 SNAKES SNAKE</b><button class="close" onclick="playTouch();closeM('lvM')">X SNAKE</button></div><div id="lvList" class="levelGrid"></div></div>
+<div id="adM" class="modal"><div class="mTop"><b class="text3D">ADS SNAKE - 4 TIMES DAILY SNAKE</b><button class="close" onclick="playTouch();closeM('adM')">X SNAKE</button></div><div style="padding:12px"><div style="background:#1a1a00;border:1px solid #ffeb3b;border-radius:12px;padding:10px;margin-bottom:10px;text-align:center;font-size:6px;color:#ffeb3b">DAILY LIMIT SNAKE: 4 Times Per Day Snake - Left: <span id="adLeftTxt">4</span> Snake - Resets Tomorrow Snake</div><div class="adBox3d"><button class="buy3d perm3d" onclick="playTouch();watchAd(300)">WATCH AD SNAKE +300 SNAKE</button></div><div class="adBox3d"><button class="buy3d perm3d" onclick="playTouch();watchAd(500)">WATCH AD SNAKE +500 SNAKE</button></div><div class="adBox3d"><button class="buy3d perm3d" onclick="playTouch();watchAd(700)">WATCH AD SNAKE +700 SNAKE</button></div><div class="adBox3d"><button class="buy3d use3d" onclick="playTouch();watchAd(1000)">WATCH AD SNAKE +1000 SNAKE</button></div></div></div>
+<div id="spinM" class="modal"><div class="mTop"><b class="text3D">SPIN SNAKE - 2 TIMES DAILY SNAKE</b><button class="close" onclick="playTouch();closeM('spinM')">X SNAKE</button></div><div style="padding:16px;text-align:center">
+<div style="background:#1a1a00;border:1px solid #ffeb3b;border-radius:12px;padding:10px;margin-bottom:12px;text-align:center;font-size:6px;color:#ffeb3b">DAILY LIMIT SNAKE: 2 Times Per Day Snake - Left: <span id="spinLeftTxt">2</span> Snake - Resets Tomorrow Snake</div>
+<div style="position:relative;width:220px;margin:0 auto"><div style="position:absolute;top:-20px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:14px solid transparent;border-right:14px solid transparent;border-top:20px solid #ff0000;z-index:10;filter:drop-shadow(0 4px 6px #000)"></div><div id="wheel" style="width:220px;height:220px;border-radius:50%;border:7px solid #00ffff;margin:0 auto;position:relative;background:conic-gradient(#00ffff 0 60deg,#ff00ff 60deg 120deg,#ffffff 120deg 180deg,#ffff00 180deg 240deg,#00ff88 240deg 300deg,#ff9900 300deg 360deg);transition:transform 3.5s cubic-bezier(0.17,0.67,0.12,0.99);box-shadow:0 0 30px #00ffff55, 10px 10px 24px #000"></div></div>
+<div id="spinRes" class="text3D" style="margin-top:18px;font-weight:900;color:#00ff88;font-size:14px;min-height:24px;background:linear-gradient(145deg,#15151f,#1a1a2e);border-radius:14px;padding:12px;box-shadow:6px 6px 14px #000">Arrow Shows Prize Snake - Spin to Win Snake POP! 2 Times Daily Snake</div>
+<div id="spinCoinBelow" style="margin-top:12px;color:#ffeb3b;font-weight:900;font-size:16px;background:linear-gradient(145deg,#1a1a00,#2a2a00);border-radius:12px;padding:14px;box-shadow:6px 6px 14px #000;transform:perspective(500px) rotateX(8deg)">Last Win Snake: <span id="lastWin" style="font-size:20px">0</span> COIN SNAKE<br><span style="font-size:12px;color:#fff">Total Snake Coin Snake: <span id="totalCoinSpin">500</span></span></div>
+<div style="margin-top:16px"><button onclick="playTouch();spinNow()" class="buy3d use3d" style="padding:14px 26px;font-size:12px" id="spinBtn">SPIN SNAKE NOW SNAKE POP! - 2 LEFT SNAKE</button></div>
+</div></div>
+<div id="settingsM" class="modal"><div class="mTop"><b class="text3D">SETTINGS SNAKE - RATING FOR 3+ SNAKE</b><button class="close" onclick="playTouch();closeM('settingsM')">X SNAKE</button></div><div style="padding:12px">
+<div class="setRow3d" style="border:2px solid #00ffff"><span class="text3D" style="font-size:7px">🎮 Game Sound Snake - খেলার আওয়াজ Snake<br><span style="font-size:5px;color:#aaa">Move Eat Hit Shop Level Touch Snake</span></span><button id="soundBtn" class="buy3d perm3d" onclick="toggleSound()">ON SNAKE</button></div>
+<div class="setRow3d" style="border:2px solid #ffeb3b"><span class="text3D" style="font-size:7px">🔊 Loading Entry Sound Snake - ঢোকার আওয়াজ Snake<br><span style="font-size:5px;color:#aaa">SGS Loading Pop Celebration Snake - আলাদা বন্ধ Snake</span></span><button id="loadingSoundBtn" class="buy3d perm3d" onclick="toggleLoadingSound()">ON SNAKE</button></div>
+<div class="setRow3d"><span class="text3D" style="font-size:8px">Vibration Snake</span><button id="vibBtn" class="buy3d perm3d" onclick="playTouch();toggleVib()">ON SNAKE</button></div>
+<div class="setRow3d"><span class="text3D" style="font-size:8px">Trail 3D Snake</span><button id="trailBtn" class="buy3d perm3d" onclick="playTouch();toggleTrail()">ON SNAKE</button></div>
+<div style="background:linear-gradient(145deg,#001a1a,#0a2a2a);border:2px solid #00ffff;border-radius:16px;padding:14px;margin:12px 0;box-shadow:8px 8px 16px #000">
+<div class="text3D" style="font-size:10px;color:#00ffff;text-align:center">🐍 RATING FOR 3+ SNAKE 🐍</div>
+<div style="font-size:6px;color:#fff;line-height:10px;margin-top:8px;text-align:center">
+<b style="color:#ffeb3b;font-size:8px">RATING FOR 3+ SNAKE</b><br><br>
+This Snake Game is Rated For 3+ Snake<br>
+Safe For 3+ Years Old Snake Kids Snake<br>
+Family Friendly Snake - No Violence Snake<br>
+<b style="color:#00ffff">Game Sound:</b> আলাদা বন্ধ করা যাবে Snake<br>
+<b style="color:#ffeb3b">Loading Sound:</b> আলাদা বন্ধ করা যাবে Snake<br>
+Studio Snake: Sadia Studio | Habib Snake<br>
+Version Snake: V5 Final No Bug + InterAd Snake - RATING FOR 3+ SNAKE<br>
+</div>
+</div>
+</div></div>
+<div id="interAd"><div class="interBox">
+<div class="text3D" style="color:#00ffff;font-size:12px">Interstitial Ad Snake - SGS Snake - RATING FOR 3+</div>
+<div style="width:300px;height:250px;background:#000;margin:12px auto;border-radius:12px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:10px;border:1px dashed #00ffff66;flex-direction:column;text-align:center">Ad 300x250 Snake<br><span style="color:#ffeb3b">Safe Family Ad Snake - RATING FOR 3+ Snake</span><br><br>5 sec পরে Skip আসবে Snake<br>Admob Interstitial Ad Snake Here</div>
+<div id="adTimer" style="color:#ffeb3b;font-size:9px;margin:8px">Ad Snake: 5s Snake</div>
+<button id="skipAdBtn" class="buy3d use3d" style="display:none;padding:12px 22px;font-size:10px" onclick="closeInterAdAndSpin()">SKIP AD SNAKE - GET COIN SNAKE</button>
+</div></div>
+<script>
+const START_COINS=500;const FOOD_EARN=5;
+let paused=false,waiting=true,gameLoop=null,coins=parseInt(localStorage.getItem('c')||START_COINS),high=parseInt(localStorage.getItem('h')||'0'),curLv=parseInt(localStorage.getItem('curLv')||'1'),sel=JSON.parse(localStorage.getItem('sel')||'{"food":0,"body":0,"full":0,"head":0}'),soundOn=localStorage.getItem('soundOn')!=='0',loadingSoundOn=localStorage.getItem('loadingSoundOn')!=='0',vibOn=localStorage.getItem('vibOn')!=='0',trailOn=localStorage.getItem('trailOn')!=='0',ac,trail=[],isGameOver=false,loadingDone=false;
+document.getElementById('coin').innerText=coins;document.getElementById('high').innerText=high;document.getElementById('totalCoinSpin').innerText=coins;
+function getToday(){return new Date().toISOString().split('T')[0];}
+function getSpinCount(){let d=getToday();let sd=localStorage.getItem('spinDate');if(sd!==d){localStorage.setItem('spinDate',d);localStorage.setItem('spinCount','0');return 0;}return parseInt(localStorage.getItem('spinCount')||'0');}
+function getAdCount(){let d=getToday();let ad=localStorage.getItem('adDate');if(ad!==d){localStorage.setItem('adDate',d);localStorage.setItem('adCount','0');return 0;}return parseInt(localStorage.getItem('adCount')||'0');}
+function updateLimitBadges(){
+  let spinLeft=2-getSpinCount();let adLeft=4-getAdCount();
+  let sB=document.getElementById('spinLimitBadge');if(sB){sB.innerText=spinLeft+' LEFT SNAKE';sB.className='limitBadge '+(spinLeft>0?'limitOk':'');}
+  let aB=document.getElementById('adLimitBadge');if(aB){aB.innerText=adLeft+' LEFT SNAKE';aB.className='limitBadge '+(adLeft>0?'limitOk':'');}
+  let sl=document.getElementById('spinLeftTxt');if(sl)sl.innerText=spinLeft;
+  let al=document.getElementById('adLeftTxt');if(al)al.innerText=adLeft;
+  let sb=document.getElementById('spinBtn');if(sb){sb.innerText=spinLeft>0?'SPIN SNAKE NOW POP! - '+spinLeft+' LEFT SNAKE':'LIMIT OVER SNAKE - TOMORROW SNAKE';sb.disabled=spinLeft<=0;}
+}
+function initA(){try{if(!ac)ac=new(window.AudioContext||window.webkitAudioContext)();if(ac.state==='suspended')ac.resume();}catch(e){}}
+function toneGame(f,d,t='sine',v=0.42){if(!soundOn)return;try{initA();if(!ac)return;let o=ac.createOscillator(),g=ac.createGain();o.type=t;o.frequency.value=f;o.connect(g);g.connect(ac.destination);g.gain.setValueAtTime(v,ac.currentTime);g.gain.exponentialRampToValueAtTime(0.001,ac.currentTime+d/1000);o.start();o.stop(ac.currentTime+d/1000);}catch(e){}}
+function toneLoading(f,d,t='sine',v=0.42){if(!loadingSoundOn)return;try{initA();if(!ac)return;let o=ac.createOscillator(),g=ac.createGain();o.type=t;o.frequency.value=f;o.connect(g);g.connect(ac.destination);g.gain.setValueAtTime(v,ac.currentTime);g.gain.exponentialRampToValueAtTime(0.001,ac.currentTime+d/1000);o.start();o.stop(ac.currentTime+d/1000);}catch(e){}}
+function playTouch(){toneGame(800,60,'sine',0.25);if(vibOn&&navigator.vibrate)navigator.vibrate(20);}
+function playLoadingTick(){toneLoading(600,80,'sine',0.25);}
+function playLoadingComplete(){
+  if(!loadingSoundOn) return;
+  toneLoading(400,150,'sine',0.4);
+  setTimeout(()=>toneLoading(600,150,'sine',0.4),160);
+  setTimeout(()=>toneLoading(800,150,'sine',0.4),320);
+  setTimeout(()=>{ toneLoading(1200,200,'square',0.5); toneLoading(1500,200,'square',0.5); },500);
+  setTimeout(()=>{ toneLoading(1000,120,'sine',0.5);setTimeout(()=>toneLoading(1500,120,'sine',0.5),130);setTimeout(()=>toneLoading(2000,180,'sine',0.55),260); if(vibOn&&navigator.vibrate)navigator.vibrate(80); },700);
+}
+function vibrate(ms){if(!vibOn)return;try{if(navigator.vibrate)navigator.vibrate(ms);}catch(e){}}
+function soundCelebration(){toneGame(1000,120,'sine',0.5);setTimeout(()=>toneGame(1500,120,'sine',0.5),130);setTimeout(()=>toneGame(2000,180,'sine',0.55),260);}
+function closeM(id){playTouch();document.getElementById(id).style.display='none';if(!waiting&&!isGameOver)resumeGame();else draw();}
+function openShop(){initA();playTouch();paused=true;clearInterval(gameLoop);render();document.getElementById('shopM').style.display='flex'}
+function openLv(){initA();playTouch();paused=true;clearInterval(gameLoop);renderLv();document.getElementById('lvM').style.display='flex'}
+function openAdCenter(){initA();playTouch();paused=true;clearInterval(gameLoop);updateLimitBadges();document.getElementById('adM').style.display='flex'}
+function openSpin(){initA();playTouch();paused=true;clearInterval(gameLoop);renderSpin();updateLimitBadges();document.getElementById('spinM').style.display='flex'}
+function openSettings(){initA();playTouch();paused=true;clearInterval(gameLoop);document.getElementById('settingsM').style.display='flex';document.getElementById('soundBtn').innerText=soundOn?'ON SNAKE':'OFF SNAKE';document.getElementById('loadingSoundBtn').innerText=loadingSoundOn?'ON SNAKE':'OFF SNAKE';document.getElementById('vibBtn').innerText=vibOn?'ON SNAKE':'OFF SNAKE';document.getElementById('trailBtn').innerText=trailOn?'ON SNAKE':'OFF SNAKE';}
+function exitGame(){playTouch();if(confirm('Exit SGS Snake Changer Snake?')){try{window.close()}catch(e){}}}
+function resetGameData(){playTouch();if(confirm('RESET SNAKE DATA - সব Snake Data মুছবে Snake?')){localStorage.clear();coins=START_COINS;high=0;curLv=1;sel={food:0,body:0,full:0,head:0};localStorage.setItem('c',coins);localStorage.setItem('h',high);localStorage.setItem('curLv',curLv);localStorage.setItem('sel',JSON.stringify(sel));document.getElementById('coin').innerText=coins;document.getElementById('high').innerText=high;document.getElementById('totalCoinSpin').innerText=coins;render();renderLv();start();updateLimitBadges();}}
+function rateAppInApp(){initA();playTouch();soundCelebration();coins+=100;localStorage.setItem('c',coins);document.getElementById('coin').innerText=coins;document.getElementById('totalCoinSpin').innerText=coins;alert('⭐ RATING FOR 3+ SNAKE ⭐\n\nRated For 3+ Snake - Safe For Kids Snake');window.open('https://play.google.com/store/apps/details?id=com.sadiastudio.snakechanger.sgs','_blank');}
+function togglePause(){initA();playTouch();if(isGameOver){isGameOver=false;start();return}if(waiting){waiting=false;paused=false;document.getElementById('state').innerText='PLAYING SNAKE';clearInterval(gameLoop);gameLoop=setInterval(update,getSpeed());toneGame(500,100,'sine',0.4);return}if(paused)resumeGame();else{paused=true;clearInterval(gameLoop);document.getElementById('state').innerText='PAUSED SNAKE';toneGame(300,100,'sine',0.3)}}
+function getSpeed(){let s=Math.max(110,200-curLv*4-(levelConfigs[curLv-1]?.speedBonus||0));document.getElementById('speed').innerText=s+'ms Snake';return s;}
+function resumeGame(){initA();paused=false;waiting=false;isGameOver=false;document.getElementById('state').innerText='PLAYING SNAKE';clearInterval(gameLoop);gameLoop=setInterval(update,getSpeed());}
+function showTab(n){playTouch();document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',i==n));document.querySelectorAll('.sec').forEach((s,i)=>s.classList.toggle('active',i==n))}
+function watchAd(a){initA();playTouch();let cnt=getAdCount();if(cnt>=4){alert('Daily Limit Over Snake! 4 Times Per Day Snake - Tomorrow Snake Again Snake!');return;}cnt++;localStorage.setItem('adCount',cnt+'');localStorage.setItem('adDate',getToday());coins+=a;localStorage.setItem('c',coins);document.getElementById('coin').innerText=coins;document.getElementById('totalCoinSpin').innerText=coins;soundCelebration();render();renderLv();updateLimitBadges();alert('Snake Ad Watched Snake! +'+a+' Snake Coin! Left Today Snake: '+(4-cnt)+' Snake');}
+let pendingSpinWin=0;
+function renderSpin(){document.getElementById('wheel').innerHTML=`<div style="position:absolute;top:8%;left:50%;transform:translateX(-50%);font-weight:900;color:#000;font-size:13px;background:#fff;border-radius:6px;padding:2px 6px">100 SNAKE</div><div style="position:absolute;top:24%;right:10%;font-weight:900;color:#000;font-size:13px;background:#fff;border-radius:6px;padding:2px 6px">200 SNAKE</div><div style="position:absolute;bottom:24%;right:10%;font-weight:900;color:#fff;font-size:13px;background:#000;border-radius:6px;padding:2px 6px">300 SNAKE</div><div style="position:absolute;bottom:8%;left:50%;transform:translateX(-50%);font-weight:900;color:#fff;font-size:13px;background:#000;border-radius:6px;padding:2px 6px">500 SNAKE</div><div style="position:absolute;bottom:24%;left:10%;font-weight:900;color:#000;font-size:13px;background:#fff;border-radius:6px;padding:2px 6px">700 SNAKE</div><div style="position:absolute;top:24%;left:10%;font-weight:900;color:#000;font-size:13px;background:#fff;border-radius:6px;padding:2px 6px">1000 SNAKE</div><div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:48px;height:48px;background:linear-gradient(145deg,#000,#222);border-radius:50%;border:3px solid #ffeb3b;display:flex;align-items:center;justify-content:center;font-weight:900;color:#ffeb3b;font-size:11px">SGS SNAKE</div>`;}
+function showInterstitialAdBeforeSpin(){
+  let rewards=[100,200,300,500,700,1000];
+  pendingSpinWin=rewards[Math.floor(Math.random()*rewards.length)];
+  document.getElementById('interAd').style.display='flex';
+  document.getElementById('skipAdBtn').style.display='none';
+  let sec=5;
+  document.getElementById('adTimer').innerText='Ad Snake: '+sec+'s Snake';
+  let adInt=setInterval(()=>{
+    sec--;
+    document.getElementById('adTimer').innerText='Ad Snake: '+sec+'s Snake';
+    if(sec<=0){
+      clearInterval(adInt);
+      document.getElementById('adTimer').innerText='Ad Complete Snake! - Click Skip Snake';
+      document.getElementById('skipAdBtn').style.display='inline-block';
+      toneGame(1000,100,'sine',0.5);
+    }
+  },1000);
+}
+function closeInterAdAndSpin(){
+  document.getElementById('interAd').style.display='none';
+  document.getElementById('wheel').style.transform='rotate('+(Math.random()*360+2000)+'deg)';
+  toneGame(400,200,'sawtooth',0.4); setTimeout(()=>toneGame(600,200,'sawtooth',0.4),200); setTimeout(()=>toneGame(800,200,'sawtooth',0.4),400);
+  setTimeout(()=>{
+    coins+=pendingSpinWin; localStorage.setItem('c',coins);
+    document.getElementById('coin').innerText=coins;
+    document.getElementById('totalCoinSpin').innerText=coins;
+    document.getElementById('lastWin').innerText=pendingSpinWin;
+    let leftNow=2-getSpinCount();
+    document.getElementById('spinRes').innerHTML='🎉 POP! Won Snake <span style="color:#ffeb3b;font-size:18px">'+pendingSpinWin+'</span> COIN Snake! 🎉 Ad Watched Snake! Left: '+leftNow+' Snake';
+    soundCelebration();
+    vibrate(100);
+    updateLimitBadges();
+    let popup=document.createElement('div');
+    popup.style.cssText='position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:linear-gradient(145deg,#ffeb3b,#ffcc00);color:#000;padding:20px 30px;border-radius:20px;font-weight:900;font-size:16px;z-index:999999;box-shadow:0 0 30px #ffeb3b';
+    popup.innerHTML='🎉 POP! Ad + Spin = '+pendingSpinWin+' Coin Snake! 🎉';
+    document.body.appendChild(popup);
+    setTimeout(()=>popup.remove(),2000);
+  },1000);
+}
+function spinNow(){
+  initA();playTouch();
+  let cnt=getSpinCount();if(cnt>=2){alert('Spin Daily Limit Over Snake! 2 Times Per Day Snake - Tomorrow Snake Again Snake!');return;}
+  cnt++;localStorage.setItem('spinCount',cnt+'');localStorage.setItem('spinDate',getToday());
+  showInterstitialAdBeforeSpin();
+}
+const foodItems=[{n:'Apple Snake Classic Snake',color:'#ff1144',price:5000,snake:'SGS Classic Snake',emoji:'🍎'},{n:'Egg Python Snake',color:'#ffffee',price:5600,snake:'Python Snake',emoji:'🥚'},{n:'Mouse Cobra Snake MUST Snake',color:'#888888',price:6200,snake:'Cobra Snake',emoji:'🐭'},{n:'Frog Viper Snake',color:'#00ff88',price:6800,snake:'Viper Snake',emoji:'🐸'},{n:'Fish Anaconda Snake',color:'#00aaff',price:7400,snake:'Anaconda Snake',emoji:'🐟'},{n:'Insect Krait Snake',color:'#ffeb3b',price:8000,snake:'Krait Snake',emoji:'🪲'},{n:'Seed Mamba Snake',color:'#ffff00',price:8600,snake:'Mamba Snake',emoji:'🌾'},{n:'Lizard Coral Snake',color:'#ff6600',price:9200,snake:'Coral Snake',emoji:'🦎'},{n:'Meat Boa Snake',color:'#cc0000',price:9800,snake:'Boa Snake',emoji:'🍖'},{n:'Plankton Sea Snake',color:'#00ffff',price:10400,snake:'Sea Snake',emoji:'🌊'},{n:'Fly Tree Snake',color:'#88ff88',price:11000,snake:'Tree Snake',emoji:'🪰'},{n:'Scorpion Desert Snake',color:'#ffdd88',price:11600,snake:'Desert Snake',emoji:'🦂'},{n:'Fire Fly Lava Snake',color:'#ff3300',price:12200,snake:'Lava Snake',emoji:'🔥'},{n:'Ice Fish Ice Snake',color:'#aaffff',price:12800,snake:'Ice Snake',emoji:'🧊'},{n:'Star Galaxy Boss Snake',color:'#9900ff',price:13400,snake:'Galaxy Boss Snake',emoji:'⭐'}];
+const bodyItems=[{n:'Cyan SGS Classic Snake',color:'#00ffff',price:6000,snake:'SGS Classic Snake'},{n:'Brown Python Snake',color:'#8B4513',price:6800,snake:'Python Snake'},{n:'Golden Cobra Hood MUST Snake',color:'#ffcc00',price:7600,snake:'Cobra Snake'},{n:'Neon Green Viper Triangle Snake',color:'#00ff88',price:8400,snake:'Viper Snake'},{n:'Dark Green Anaconda Huge Snake',color:'#005500',price:9200,snake:'Anaconda Snake'},{n:'BlackWhite Krait Stripe Snake',color:'#ffffff',price:10000,snake:'Krait Snake'},{n:'Black Mamba Sharp Fast Snake',color:'#111111',price:10800,snake:'Mamba Snake'},{n:'Red Yellow Coral Ring Snake',color:'#ff0000',price:11600,snake:'Coral Snake'},{n:'Light Brown Boa Thick Snake',color:'#A0522D',price:12400,snake:'Boa Snake'},{n:'Ocean Blue Sea Flat Snake',color:'#00aaff',price:13200,snake:'Sea Snake'},{n:'Light Green Tree Small Snake',color:'#88ff88',price:14000,snake:'Tree Snake'},{n:'Sand Yellow Desert Snake',color:'#ffdd88',price:14800,snake:'Desert Snake'},{n:'Fire Red Lava Glow Snake',color:'#ff3300',price:15600,snake:'Lava Snake'},{n:'Ice Blue White Crystal Snake',color:'#aaffff',price:16400,snake:'Ice Snake'},{n:'Galaxy Purple Cosmic Boss Snake',color:'#9900ff',price:17200,snake:'Galaxy Boss Snake'}];
+const fullBodies=[{n:'SGS Classic Dot Ring Snake',color:'#00ffff',center:'#ffffff',size:4.2,price:7000,snake:'SGS Classic Snake'},{n:'Python Brown Solid Big Snake',color:'#8B4513',center:'#ffcc99',size:4.5,price:7800,snake:'Python Snake'},{n:'Cobra Golden Hood MUST Big Snake',color:'#ffcc00',center:'#ff6600',size:4.7,price:8600,snake:'Cobra Snake'},{n:'Viper Neon Triangle Poison Snake',color:'#00ff88',center:'#ffff00',size:4.1,price:9400,snake:'Viper Snake'},{n:'Anaconda Dark Green Huge Snake',color:'#005500',center:'#00ff88',size:5.0,price:10200,snake:'Anaconda Snake'},{n:'Krait BlackWhite Stripe Snake',color:'#ffffff',center:'#000000',size:4.0,price:11000,snake:'Krait Snake'},{n:'Mamba Black Sharp Fast Snake',color:'#111111',center:'#ff0000',size:4.2,price:11800,snake:'Mamba Snake'},{n:'Coral Red Yellow Ring Snake',color:'#ff0000',center:'#ffff00',size:4.1,price:12600,snake:'Coral Snake'},{n:'Boa Light Brown Thick Snake',color:'#A0522D',center:'#ffcc99',size:4.8,price:13400,snake:'Boa Snake'},{n:'Sea Ocean Blue Flat Snake',color:'#00aaff',center:'#ffffff',size:4.3,price:14200,snake:'Sea Snake'},{n:'Tree Light Green Small Snake',color:'#88ff88',center:'#ffff00',size:3.9,price:15000,snake:'Tree Snake'},{n:'Desert Sand Yellow Snake',color:'#ffdd88',center:'#ff9900',size:4.2,price:15800,snake:'Desert Snake'},{n:'Lava Fire Red Glow Snake',color:'#ff3300',center:'#ffff00',size:4.6,price:16600,snake:'Lava Snake'},{n:'Ice Blue White Crystal Snake',color:'#aaffff',center:'#ffffff',size:4.4,price:17400,snake:'Ice Snake'},{n:'Galaxy Purple Cosmic Boss Final Snake',color:'#9900ff',center:'#00ffff',size:5.2,price:18200,snake:'Galaxy Boss Snake'}];
+const heads=[{n:'SGS Box Head Classic Snake',color:'#00ffff',type:'sgs',price:5000,snake:'SGS Classic Snake'},{n:'Python Round Big Eye Snake',color:'#8B4513',type:'python',price:5700,snake:'Python Snake'},{n:'Cobra Hood MUST Big Spread Snake',color:'#ffcc00',type:'cobra',price:6400,snake:'Cobra Snake'},{n:'Viper Triangle Poison Sharp Snake',color:'#00ff88',type:'viper',price:7100,snake:'Viper Snake'},{n:'Anaconda Huge Big Eye Snake',color:'#005500',type:'anaconda',price:7800,snake:'Anaconda Snake'},{n:'Krait Stripe Head Snake',color:'#ffffff',type:'krait',price:8500,snake:'Krait Snake'},{n:'Mamba Sharp Fast Head Snake',color:'#111111',type:'mamba',price:9200,snake:'Mamba Snake'},{n:'Coral Ring Head Color Snake',color:'#ff0000',type:'coral',price:9900,snake:'Coral Snake'},{n:'Boa Thick Head Snake',color:'#A0522D',type:'boa',price:10600,snake:'Boa Snake'},{n:'Sea Flat Head Snake',color:'#00aaff',type:'sea',price:11300,snake:'Sea Snake'},{n:'Tree Small Big Eye Head Snake',color:'#88ff88',type:'tree',price:12000,snake:'Tree Snake'},{n:'Desert Sand Head Snake',color:'#ffdd88',type:'desert',price:12700,snake:'Desert Snake'},{n:'Lava Fire Glow Head Snake',color:'#ff3300',type:'lava',price:13400,snake:'Lava Snake'},{n:'Ice Crystal Head Snake',color:'#aaffff',type:'ice',price:14100,snake:'Ice Snake'},{n:'Galaxy Cosmic Boss Head Star Snake',color:'#9900ff',type:'galaxy',price:14800,snake:'Galaxy Boss Snake'}];
+const levelCosts=[0,5000,10000,15000,20000,25000,30000,35000,40000,50000,60000,70000,80000,90000,100000];
+const levelConfigs=[{food:0,body:0,full:0,head:0,bg:'#001a1a',trail:'#00ffff',speedBonus:0,name:'Lv1 SGS Classic FREE Snake',snake:'SGS Classic Snake'},{food:1,body:1,full:1,head:1,bg:'#1a0f00',trail:'#8B4513',speedBonus:1,name:'Lv2 Python Snake 5k Snake',snake:'Python Snake'},{food:2,body:2,full:2,head:2,bg:'#1a1500',trail:'#ffcc00',speedBonus:2,name:'Lv3 Cobra MUST Snake 10k Snake',snake:'Cobra Snake'},{food:3,body:3,full:3,head:3,bg:'#001a00',trail:'#00ff88',speedBonus:3,name:'Lv4 Viper Snake 15k Snake',snake:'Viper Snake'},{food:4,body:4,full:4,head:4,bg:'#001a00',trail:'#005500',speedBonus:4,name:'Lv5 Anaconda Snake 20k Snake',snake:'Anaconda Snake'},{food:5,body:5,full:5,head:5,bg:'#0a0a0a',trail:'#ffffff',speedBonus:5,name:'Lv6 Krait Snake 25k Snake',snake:'Krait Snake'},{food:6,body:6,full:6,head:6,bg:'#000000',trail:'#111111',speedBonus:6,name:'Lv7 Mamba Snake 30k Snake',snake:'Mamba Snake'},{food:7,body:7,full:7,head:7,bg:'#1a0000',trail:'#ff0000',speedBonus:7,name:'Lv8 Coral Snake 35k Snake',snake:'Coral Snake'},{food:8,body:8,full:8,head:8,bg:'#1a0f00',trail:'#A0522D',speedBonus:8,name:'Lv9 Boa Snake 40k Snake',snake:'Boa Snake'},{food:9,body:9,full:9,head:9,bg:'#001a33',trail:'#00aaff',speedBonus:9,name:'Lv10 Sea Snake 50k Snake',snake:'Sea Snake'},{food:10,body:10,full:10,head:10,bg:'#001a00',trail:'#88ff88',speedBonus:10,name:'Lv11 Tree Snake 60k Snake',snake:'Tree Snake'},{food:11,body:11,full:11,head:11,bg:'#1a1500',trail:'#ffdd88',speedBonus:10,name:'Lv12 Desert Snake 70k Snake',snake:'Desert Snake'},{food:12,body:12,full:12,head:12,bg:'#1a0000',trail:'#ff3300',speedBonus:11,name:'Lv13 Lava Snake 80k Snake',snake:'Lava Snake'},{food:13,body:13,full:13,head:13,bg:'#001a2a',trail:'#aaffff',speedBonus:11,name:'Lv14 Ice Snake 90k Snake',snake:'Ice Snake'},{food:14,body:14,full:14,head:14,bg:'#0a001a',trail:'#9900ff',speedBonus:12,name:'Lv15 Galaxy Boss Snake 100k Snake',snake:'Galaxy Boss Snake'}];
+function isLevelUnlocked(lv){if(lv==1)return true;return localStorage.getItem('lvUnlock_'+lv)=='1';}
+function toggleSound(){initA();playTouch();soundOn=!soundOn;localStorage.setItem('soundOn',soundOn?'1':'0');document.getElementById('snd').innerText=soundOn?'SOUND SNAKE ON':'MUTE SNAKE';document.getElementById('soundBtn').innerText=soundOn?'ON SNAKE':'OFF SNAKE';if(soundOn)toneGame(800,80,'sine',0.3);}
+function toggleLoadingSound(){initA();loadingSoundOn=!loadingSoundOn;localStorage.setItem('loadingSoundOn',loadingSoundOn?'1':'0');document.getElementById('loadingSoundBtn').innerText=loadingSoundOn?'ON SNAKE':'OFF SNAKE';if(loadingSoundOn)playLoadingTick();}
+function toggleVib(){playTouch();vibOn=!vibOn;localStorage.setItem('vibOn',vibOn?'1':'0');document.getElementById('vibBtn').innerText=vibOn?'ON SNAKE':'OFF SNAKE';}
+function toggleTrail(){playTouch();trailOn=!trailOn;localStorage.setItem('trailOn',trailOn?'1':'0');document.getElementById('trailBtn').innerText=trailOn?'ON SNAKE':'OFF SNAKE';trail=[]}
+function render(){
+  let h='<div class="shopGrid">';foodItems.forEach((it,i)=>{let u=localStorage.getItem('fP_'+i)=='1';let usingNow=sel.food===i&&u;h+=`<div class="item3d ${usingNow?'using':''}" onclick="playTouch()"><div class="iconBox" style="background:${it.color}22;border:2px solid ${it.color}66"><span style="font-size:22px">${it.emoji}</span></div><div style="font-size:7px;font-weight:900" class="text3D">${it.n}<br><span style="font-size:5px;color:#aaa">${it.snake}</span></div><button class="buy3d ${usingNow?'use3d':'perm3d'}" onclick="playTouch();buyIt('fP_',${i},${it.price},'food',${i})">${usingNow?'USING SNAKE':u?'OWNED SNAKE':it.price+' COIN SNAKE'}</button></div>`;});h+='</div>';document.getElementById('sec0').innerHTML=h;
+  h='<div class="shopGrid">';bodyItems.forEach((it,i)=>{let u=localStorage.getItem('bP_'+i)=='1';let usingNow=sel.body===i&&u;h+=`<div class="item3d ${usingNow?'using':''}" onclick="playTouch()"><div class="iconBox" style="background:linear-gradient(145deg,${it.color},${it.color}aa)"><span class="dot" style="background:#fff"></span></div><div style="font-size:7px;font-weight:900" class="text3D">${it.n}<br><span style="font-size:5px;color:#aaa">${it.snake}</span></div><button class="buy3d ${usingNow?'use3d':'perm3d'}" onclick="playTouch();buyIt('bP_',${i},${it.price},'body',${i})">${usingNow?'USING SNAKE':u?'OWNED SNAKE':it.price+' COIN SNAKE'}</button></div>`;});h+='</div>';document.getElementById('sec1').innerHTML=h;
+  h='<div class="shopGrid">';fullBodies.forEach((fb,i)=>{let u=localStorage.getItem('fbP_'+i)=='1';let usingNow=sel.full===i&&u;h+=`<div class="item3d ${usingNow?'using':''}" onclick="playTouch()"><div class="iconBox"><div style="width:${fb.size*3.4}px;height:${fb.size*3.4}px;border-radius:50%;background:radial-gradient(circle at 30% 30%,${fb.center},${fb.color});border:2px solid ${fb.center}"></div></div><div style="font-size:7px;font-weight:900" class="text3D">${fb.n}<br><span style="font-size:5px;color:#aaa">${fb.snake}</span></div><button class="buy3d ${usingNow?'use3d':'perm3d'}" onclick="playTouch();buyIt('fbP_',${i},${fb.price},'full',${i})">${usingNow?'USING SNAKE':u?'OWNED SNAKE':fb.price+' COIN SNAKE'}</button></div>`;});h+='</div>';document.getElementById('sec2').innerHTML=h;
+  h='<div class="shopGrid">';heads.forEach((hd,i)=>{let u=localStorage.getItem('hP_'+i)=='1';let usingNow=sel.head===i&&u;h+=`<div class="item3d ${usingNow?'using':''}" onclick="playTouch()"><div class="iconBox" style="background:${hd.color}22"><canvas width="56" height="38" id="headPrev${i}"></canvas></div><div style="font-size:7px;font-weight:900" class="text3D">${hd.n}<br><span style="font-size:5px;color:#aaa">${hd.snake}</span></div><button class="buy3d ${usingNow?'use3d':'perm3d'}" onclick="playTouch();buyIt('hP_',${i},${hd.price},'head',${i})">${usingNow?'USING SNAKE':u?'OWNED SNAKE':hd.price+' COIN SNAKE'}</button></div>`;});h+='</div>';document.getElementById('sec3').innerHTML=h;
+  setTimeout(()=>{heads.forEach((hd,i)=>{let c=document.getElementById('headPrev'+i);if(c){let x=c.getContext('2d');x.clearRect(0,0,56,38);drawSnakeHeadPrev(x,28,19,hd.type,hd.color)}})},160);
+}
+function drawSnakeHeadPrev(ctx,x,y,type,color){ctx.fillStyle=color;ctx.shadowColor=color;ctx.shadowBlur=8;ctx.beginPath();ctx.arc(x,y,12,0,Math.PI*2);ctx.fill();ctx.shadowBlur=0;ctx.fillStyle='#000';ctx.beginPath();ctx.arc(x-2,y-1,1,0,Math.PI*2);ctx.arc(x+2,y-1,1,0,Math.PI*2);ctx.fill();}
+function buyIt(pre,i,pr,key,idx){initA();playTouch();if(localStorage.getItem(pre+i)=='1'){sel[key]=idx;localStorage.setItem('sel',JSON.stringify(sel));draw();render();toneGame(1000,80,'sine',0.4);vibrate(30);return;}if(coins>=pr){coins-=pr;localStorage.setItem(pre+i,'1');localStorage.setItem('c',coins);document.getElementById('coin').innerText=coins;document.getElementById('totalCoinSpin').innerText=coins;sel[key]=idx;localStorage.setItem('sel',JSON.stringify(sel));render();draw();soundCelebration();vibrate(60);}else{alert('Need Snake '+pr+' Have Snake '+coins);toneGame(200,200,'sawtooth',0.4);}}
+function renderLv(){let s='';for(let i=1;i<=15;i++){let cost=levelCosts[i-1];let unlocked=isLevelUnlocked(i);let cfg=levelConfigs[i-1];let isPlaying=curLv===i&&unlocked;s+=`<div class="levelCube3D ${isPlaying?'playing':(unlocked?'free':'locked')}" onclick="playTouch()"><div class="levelTop"></div><div class="levelMain"><div class="levelLeft"><div class="levelIconBox"><canvas width="50" height="34" id="lvHead${i}"></canvas></div><div class="levelInfo"><b class="text3D">Lv${i} ${cfg.snake.toUpperCase()} Snake ${isPlaying?' - PLAYING SNAKE':''}</b><span>${fullBodies[cfg.full].n} Snake + ${heads[cfg.head].n} Snake</span><span>🐍 ${cfg.name} Snake | ${cost==0?'FREE SNAKE':cost+' COIN SNAKE'}</span><div class="levelBadge ${isPlaying?'badgePlaying':(unlocked?'badgeUnlocked':'badgeLocked')}">${isPlaying?'👉 PLAYING SNAKE NOW':(unlocked?'✅ UNLOCKED SNAKE':'🔒 LOCKED SNAKE - NEED '+cost)}</div></div></div><div class="levelRight"><div class="levelCost text3D">${cost==0?'FREE SNAKE':cost+' COIN SNAKE'}</div><button class="levelBtn ${isPlaying?'btnPlaying':(unlocked?'btnUnlocked':'btnLocked')}" onclick="playTouch();${unlocked?`curLv=${i};localStorage.setItem('curLv',${i});applyLevelTheme();closeM('lvM');start()`:`unlockLevel(${i})`}">${isPlaying?'USING SNAKE - PLAYING SNAKE':(unlocked?'PLAY NOW SNAKE':'UNLOCK SNAKE '+cost)}</button></div></div></div>`;}document.getElementById('lvList').innerHTML=s;setTimeout(()=>{for(let i=1;i<=15;i++){let cfg=levelConfigs[i-1];let c=document.getElementById('lvHead'+i);if(c){let x=c.getContext('2d');x.clearRect(0,0,50,34);drawSnakeHeadPrev(x,25,17,heads[cfg.head].type,bodyItems[cfg.body].color)}}},180);}
+function unlockLevel(lv){initA();playTouch();if(isLevelUnlocked(lv)){curLv=lv;localStorage.setItem('curLv',curLv);applyLevelTheme();closeM('lvM');start();return;}let cost=levelCosts[lv-1];if(coins>=cost){coins-=cost;localStorage.setItem('c',coins);localStorage.setItem('lvUnlock_'+lv,'1');localStorage.setItem('curLv',lv);document.getElementById('coin').innerText=coins;document.getElementById('totalCoinSpin').innerText=coins;curLv=lv;applyLevelTheme();renderLv();closeM('lvM');start();soundCelebration();vibrate(80);}else{alert('Need Snake '+cost+' Have Snake '+coins);toneGame(200,200,'sawtooth',0.5);}}
+function applyLevelTheme(){let cfg=levelConfigs[curLv-1];sel.food=cfg.food;sel.body=cfg.body;sel.full=cfg.full;sel.head=cfg.head;localStorage.setItem('curLv',curLv);localStorage.setItem('sel',JSON.stringify(sel));document.getElementById('cv').style.background=cfg.bg;document.getElementById('cv').style.borderColor=bodyItems[cfg.body].color;document.getElementById('lvName').innerText=fullBodies[cfg.full].n+' Snake + '+heads[cfg.head].n+' Snake';document.getElementById('lv').innerText=curLv;getSpeed();}
+function hideLoading(){if(loadingDone)return;loadingDone=true;playLoadingComplete();document.getElementById('loading').style.display='none';applyLevelTheme();render();renderLv();renderSpin();draw();start();updateLimitBadges();}
+let loadP=0;let barEl=document.getElementById('bar');let loadTextEl=document.getElementById('loadText');
+function showLineSafe(id){try{let el=document.getElementById(id);if(el){el.classList.add('show');playLoadingTick();}}catch(e){}}
+setTimeout(()=>showLineSafe('l1'),200);setTimeout(()=>showLineSafe('l2'),800);setTimeout(()=>showLineSafe('l3'),1400);setTimeout(()=>showLineSafe('l4'),2000);
+let loader=setInterval(()=>{loadP+=5;if(loadP>100)loadP=100;if(barEl)barEl.style.width=loadP+'%';if(loadTextEl)loadTextEl.innerText='Loading Snake '+loadP+'% Snake';if(loadP%20==0)playLoadingTick();if(loadP>=100){clearInterval(loader);setTimeout(()=>hideLoading(),800);}},300);
+const cv=document.getElementById('cv');const ctx=cv.getContext('2d');
+let snake=[{x:8,y:5},{x:7,y:5},{x:6,y:5},{x:5,y:5}];let dir='right',ndir='right',food={x:14,y:4},score=0;
+function setD(d){initA();playTouch();if((d=='up'&&dir!='down')||(d=='down'&&dir!='up')||(d=='left'&&dir!='right')||(d=='right'&&dir!='left')){ndir=d;if(waiting||paused||isGameOver){if(isGameOver){isGameOver=false;start()}else{waiting=false;resumeGame()}}}}
+function start(){snake=[{x:8,y:5},{x:7,y:5},{x:6,y:5},{x:5,y:5}];trail=[];dir='right';ndir='right';score=0;isGameOver=false;document.getElementById('sc').innerText=0;place();waiting=true;paused=true;document.getElementById('state').innerText='PRESS ARROW SNAKE';clearInterval(gameLoop);draw()}
+function place(){let empty=[];for(let x=0;x<20;x++){for(let y=0;y<10;y++){if(!snake.some(s=>s.x==x && s.y==y)){empty.push({x,y});}}}if(empty.length>0){let r=empty[Math.floor(Math.random()*empty.length)];food={x:r.x, y:r.y};}}
+function update(){
+  if(paused||waiting||isGameOver)return;
+  dir=ndir;
+  let h={x:snake[0].x,y:snake[0].y};
+  if(dir=='up')h.y--;if(dir=='down')h.y++;if(dir=='left')h.x--;if(dir=='right')h.x++;
+  if(h.x<0||h.x>=20||h.y<0||h.y>=10||snake.some(s=>s.x==h.x&&s.y==h.y)){
+    clearInterval(gameLoop);paused=true;waiting=true;isGameOver=true;
+    toneGame(200,400,'sawtooth',0.6);setTimeout(()=>toneGame(100,500,'sawtooth',0.7),150);vibrate(300);
+    document.getElementById('state').innerText='GAME OVER SNAKE - HIT WALL SNAKE BOOM!';
+    if(score>high){high=score;localStorage.setItem('h',high);document.getElementById('high').innerText=high}
+    ctx.fillStyle='rgba(0,0,0,0.9)';ctx.fillRect(0,0,360,180);
+    ctx.fillStyle='#ff4444';ctx.font='bold 14px sans-serif';ctx.textAlign='center';
+    ctx.fillText('💥 SNAKE HIT! GAME OVER SNAKE 💥 BOOM!',180,80);
+    ctx.fillStyle='#ffeb3b';ctx.font='bold 10px sans-serif';
+    ctx.fillText('Score Snake: '+score+' - Tap OK Snake to Restart Snake',180,100);
+    return;
+  }
+  snake.unshift(h);
+  if(h.x===food.x&&h.y===food.y){
+    score++;document.getElementById('sc').innerText=score;
+    coins+=FOOD_EARN;localStorage.setItem('c',coins);
+    document.getElementById('coin').innerText=coins;document.getElementById('totalCoinSpin').innerText=coins;
+    toneGame(1000,80,'sine',0.5);setTimeout(()=>toneGame(1500,60,'sine',0.4),80);vibrate(40);
+    place();
+  }else snake.pop();
+  draw();
+}
+function drawSnakeHead(x,y,type,color){ctx.fillStyle=color;ctx.shadowColor=color;ctx.shadowBlur=14;ctx.beginPath();ctx.arc(x,y,8.5,0,Math.PI*2);ctx.fill();ctx.shadowBlur=0;ctx.fillStyle='#000';ctx.beginPath();ctx.arc(x-1.5,y-0.5,1,0,Math.PI*2);ctx.arc(x+1.5,y-0.5,1,0,Math.PI*2);ctx.fill();}
+function draw(){ctx.fillStyle=levelConfigs[curLv-1]?.bg||'#000';ctx.fillRect(0,0,360,180);if(waiting&&!isGameOver){ctx.fillStyle='rgba(0,0,0,0.78)';ctx.fillRect(0,0,360,180);ctx.fillStyle='#ffeb3b';ctx.font='bold 9px sans-serif';ctx.textAlign='center';ctx.fillText(levelConfigs[curLv-1].name.toUpperCase()+' SNAKE - TAP TO PLAY SNAKE',180,50);}if(paused&&!waiting&&!isGameOver){ctx.fillStyle='rgba(0,0,0,0.6)';ctx.fillRect(0,0,360,180);ctx.fillStyle='#00ffff';ctx.font='bold 15px sans-serif';ctx.textAlign='center';ctx.fillText('PAUSED SNAKE - '+levelConfigs[curLv-1].snake.toUpperCase(),180,90);return}if(isGameOver)return;let fItem=foodItems[sel.food];ctx.fillStyle=fItem.color;ctx.shadowColor=fItem.color;ctx.shadowBlur=22;ctx.beginPath();ctx.arc(food.x*18+9,food.y*18+9,8.5,0,Math.PI*2);ctx.fill();ctx.shadowBlur=0;ctx.fillStyle='#fff';ctx.font='bold 10px sans-serif';ctx.textAlign='center';ctx.fillText(fItem.emoji,food.x*18+9,food.y*18+13);let fullCfg=fullBodies[sel.full];let headCfg=heads[sel.head];snake.forEach((s,i)=>{let x=s.x*18+9,y=s.y*18+9;if(i==0){drawSnakeHead(x,y,headCfg.type,headCfg.color);}else{let grad=ctx.createRadialGradient(x-1.5,y-1.5,1,x,y,fullCfg.size+1.5);grad.addColorStop(0,fullCfg.center);grad.addColorStop(1,fullCfg.color);ctx.fillStyle=grad;ctx.shadowColor=fullCfg.color;ctx.shadowBlur=10;ctx.beginPath();ctx.arc(x,y,fullCfg.size,0,Math.PI*2);ctx.fill();ctx.shadowBlur=0;}});}
+</script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('./sw.js');}</script>
+</body>
+</html>
