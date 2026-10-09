@@ -1,4 +1,4 @@
-const CACHE='sgs-snake-v5-interad-final';
+const CACHE='sgs-snake-v1-interad-final';
 self.addEventListener('install',e=>{
   e.waitUntil(caches.open(CACHE).then(c=>c.addAll(['./', './index.html', './manifest.json','./icon-192x192.png','./icon-512x512.png'])));
 });
